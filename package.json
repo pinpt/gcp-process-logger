@@ -1,0 +1,23 @@
+{
+  "name": "@pinpt/gcp-process-logger",
+  "version": "0.0.1",
+  "description": "A simple util for process logging to GCP",
+  "main": "index.js",
+  "bin": {
+    "gcp-process-logger": "index.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "scripts": {},
+  "keywords": [
+    "gcp",
+    "gcp-cloud-logger",
+    "process-logger"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/logging": "^9.5.4",
+    "arg": "^5.0.0"
+  }
+}
