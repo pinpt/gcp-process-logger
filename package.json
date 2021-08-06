@@ -1,6 +1,6 @@
 {
   "name": "@pinpt/gcp-process-logger",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A simple util for process logging to GCP",
   "main": "index.js",
   "bin": {
