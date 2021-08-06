@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const arg = require("arg");
-const exec = require("child_process").exec;
+const spawn = require("child_process").spawn;
 const { Logging } = require("@google-cloud/logging");
 
 // usage: process-logger [logname] --label x=b -- cmd [args]
@@ -15,6 +15,7 @@ const _args = arg(
   {
     "--label": [String], // --label <string> or --label=<string>
     "--project-id": String,
+    "--no-print-command": Boolean,
   },
   { argv: opts }
 );
@@ -60,12 +61,21 @@ const attachLogger = (metadata, stream) => {
       .forEach((line) => {
         const entry = logger.entry(metadata, line);
         entries.push(entry);
-        console.log(line);
+        process.stdout.write(line);
+        process.stdout.write("\n");
       });
     logger.write(entries);
   });
 };
 
-const p = exec(cmd.join(" "));
+if (!_args["--no-print-command"]) {
+  const msg = `→  \\033[0;32mRunning\\033[0m ${cmd.join(" ")}\n`;
+  spawn("printf", [msg], { stdio: "inherit" });
+}
+
+const p = spawn(cmd[0], cmd.slice(1), {
+  stdin: process.stdin,
+  env: { ...process.env, CI: "1" },
+});
 attachLogger(info, p.stdout);
 attachLogger(error, p.stderr);
