@@ -1,10 +1,14 @@
 {
   "name": "@pinpt/gcp-process-logger",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A simple util for process logging to GCP",
   "main": "index.js",
   "bin": {
     "gcp-process-logger": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pinpt/gcp-process-logger.git"
   },
   "files": [
     "index.js"
