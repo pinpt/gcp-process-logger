@@ -69,7 +69,7 @@ const attachLogger = (metadata, stream) => {
 };
 
 if (!_args["--no-print-command"]) {
-  const msg = `→  \\033[0;32mRunning\\033[0m ${cmd.join(" ")}\n`;
+  const msg = `→  \\033[0;32mRunning \\033[0;33m${cmd.join(" ")}\\033[0m\n`;
   const s = spawn("printf", [msg]);
   attachLogger(info, s.stdout);
 }
