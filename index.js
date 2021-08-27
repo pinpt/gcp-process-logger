@@ -78,5 +78,8 @@ const p = spawn(cmd[0], cmd.slice(1), {
   stdin: process.stdin,
   env: { ...process.env, CI: "1" },
 });
+p.on("exit", (exitCode) => {
+  process.exit(exitCode);
+});
 attachLogger(info, p.stdout);
 attachLogger(error, p.stderr);
