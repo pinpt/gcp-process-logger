@@ -51,8 +51,9 @@ const error = {
   },
 };
 
+let tasks = [];
 const attachLogger = (metadata, stream) => {
-  stream.on("data", (buf) => {
+  stream.on("data", async (buf) => {
     const str = buf.toString();
     const entries = [];
     str
@@ -64,7 +65,10 @@ const attachLogger = (metadata, stream) => {
         process.stdout.write(line);
         process.stdout.write("\n");
       });
-    logger.write(entries);
+    const p = logger.write(entries);
+    tasks.push(p);
+    await p;
+    tasks = tasks.filter((t) => t !== p);
   });
 };
 
@@ -78,7 +82,8 @@ const p = spawn(cmd[0], cmd.slice(1), {
   stdin: process.stdin,
   env: { ...process.env, CI: "1" },
 });
-p.on("exit", (exitCode) => {
+p.on("exit", async (exitCode) => {
+  await Promise.all(tasks);
   process.exit(exitCode);
 });
 attachLogger(info, p.stdout);
